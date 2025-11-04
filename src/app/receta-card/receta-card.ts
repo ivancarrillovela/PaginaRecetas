@@ -8,7 +8,7 @@ import { RecetaModel } from '../models/RecetaModel';
   templateUrl: './receta-card.html',
   styleUrl: './receta-card.scss'
 })
-export class RecetaCardComponent {
+export class RecetaCard {
 
   receta = input<RecetaModel>();
 

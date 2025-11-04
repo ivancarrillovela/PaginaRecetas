@@ -1,0 +1,4 @@
+@for (r of recetas; track $index) {
+    <app-receta-card [receta]="r" />
+}
+<app-receta-form (agregarReceta)="agregarReceta($event)" />
