@@ -1,11 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, input, output } from '@angular/core';
+import { RecetaModel } from '../models/RecetaModel';
 
 @Component({
   selector: 'app-receta-card',
+  standalone: true,
   imports: [],
   templateUrl: './receta-card.html',
-  styleUrl: './receta-card.scss',
+  styleUrl: './receta-card.scss'
 })
-export class RecetaCard {
+export class RecetaCardComponent {
 
+  receta = input.required<RecetaModel>();
+  
+  borrar = output<void>();
+
+  alBorrar() {
+    this.borrar.emit();
+  }
 }

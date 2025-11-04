@@ -1,1 +1,20 @@
-<p>receta-card works!</p>
+@if (receta()) {
+  <div class="card h-100 shadow-sm recipe-card">
+    <img [src]="receta().urlImagen" class="card-img-top" [alt]="receta().nombre">
+    <div class="card-body d-flex flex-column">
+      <h5 class="card-title">{{ receta().nombre }}</h5>
+      
+      <h6 class="mt-3">Ingredientes:</h6>
+      <ul class="list-unstyled small flex-grow-1">
+        @for (ingredient of receta().ingredientes; track $index) {
+          <li><i class="bi bi-dot"></i> {{ ingredient }}</li>
+        }
+      </ul>
+
+      <button (click)="alBorrar()" class="btn btn-outline-danger btn-sm align-self-start mt-3">
+        <i class="bi bi-trash-fill me-2"></i>
+        Borrar
+      </button>
+    </div>
+  </div>
+}
