@@ -10,11 +10,6 @@ import { RecetaModel } from '../models/RecetaModel';
 })
 export class RecetaCardComponent {
 
-  receta = input.required<RecetaModel>();
-  
-  borrar = output<void>();
+  receta = input<RecetaModel>();
 
-  alBorrar() {
-    this.borrar.emit();
-  }
 }
