@@ -1,4 +1,10 @@
-@for (r of recetas; track $index) {
-    <app-receta-card [receta]="r" />
-}
+<div class="container mt-5">
+    <h2 class="text-center">Mis Recetas</h2>
+    <hr>
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-3" *ngFor="let receta of recetas; track $index">
+            <app-receta-card [receta]="receta" (borrarReceta)="borrarReceta($event)"></app-receta-card>
+        </div>
+    </div>
+</div>
 <app-receta-form (agregarReceta)="agregarReceta($event)" />

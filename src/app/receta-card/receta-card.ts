@@ -11,5 +11,10 @@ import { RecetaModel } from '../models/RecetaModel';
 export class RecetaCard {
 
   receta = input<RecetaModel>();
+  borrarReceta = output<string>();
+
+  alBorrar() {
+    this.borrarReceta.emit(this.receta()!.nombre);
+  }
 
 }
