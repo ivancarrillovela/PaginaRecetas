@@ -1,54 +1,51 @@
-<div class="container mt-5 mb-5">
-  <div class="row">
-    <div class="col-12">
+<div class="card shadow-sm">
+  <div class="card-body p-4">
 
-      <h2 class="text-center">Añadir Nueva Receta</h2>
-      <hr>
+    <h5 class="card-title text-center mb-4">Añadir Nueva Receta</h5>
 
-      <form [formGroup]="formularioReceta" (ngSubmit)="enviarFormulario()">
+    <form [formGroup]="formularioReceta" (ngSubmit)="enviarFormulario()">
 
-        <div class="mb-3">
-          <label for="nombre" class="form-label">Nombre:</label>
-          <input type="text" id="nombre" class="form-control" formControlName="nombre">
-          @if (nombre?.invalid && (nombre?.dirty || nombre?.touched)) {
-          <div class="text-danger small mt-1">
-            @if (nombre?.errors?.['required']) {
-            El nombre es obligatorio.
-            }
-          </div>
+      <div class="mb-3">
+        <label for="nombre" class="form-label">Nombre:</label>
+        <input type="text" id="nombre" class="form-control" formControlName="nombre">
+        @if (nombre?.invalid && (nombre?.dirty || nombre?.touched)) {
+        <div class="text-danger small mt-1">
+          @if (nombre?.errors?.['required']) {
+          El nombre es obligatorio.
           }
         </div>
+        }
+      </div>
 
-        <div class="mb-3">
-          <label for="urlImagen" class="form-label">URL de la Imagen:</label>
-          <input type="text" id="urlImagen" class="form-control" formControlName="urlImagen">
-          @if (urlImagen?.invalid && (urlImagen?.dirty || urlImagen?.touched)) {
-          <div class="text-danger small mt-1">
-            @if (urlImagen?.errors?.['required']) {
-            La URL de la imagen es obligatoria.
-            }
-          </div>
+      <div class="mb-3">
+        <label for="urlImagen" class="form-label">URL de la Imagen:</label>
+        <input type="text" id="urlImagen" class="form-control" formControlName="urlImagen">
+        @if (urlImagen?.invalid && (urlImagen?.dirty || urlImagen?.touched)) {
+        <div class="text-danger small mt-1">
+          @if (urlImagen?.errors?.['required']) {
+          La URL de la imagen es obligatoria.
           }
         </div>
+        }
+      </div>
 
-        <div class="mb-3">
-          <label for="ingredientes" class="form-label">Ingredientes (uno por línea):</label>
-          <textarea id="ingredientes" class="form-control" rows="4" formControlName="ingredientes"></textarea>
-          @if (ingredientes?.invalid && (ingredientes?.dirty || ingredientes?.touched)) {
-          <div class="text-danger small mt-1">
-            @if (ingredientes?.errors?.['required']) {
-            Los ingredientes son obligatorios.
-            }
-          </div>
+      <div class="mb-3">
+        <label for="ingredientes" class="form-label">Ingredientes (uno por línea):</label>
+        <textarea id="ingredientes" class="form-control" rows="4" formControlName="ingredientes"></textarea>
+        @if (ingredientes?.invalid && (ingredientes?.dirty || ingredientes?.touched)) {
+        <div class="text-danger small mt-1">
+          @if (ingredientes?.errors?.['required']) {
+          Los ingredientes son obligatorios.
           }
         </div>
+        }
+      </div>
 
-        <button type="submit" class="btn btn-primary w-100" [disabled]="formularioReceta.invalid">
-          <i class="bi bi-plus-circle-fill me-2"></i>
-          Añadir Receta
-        </button>
-      </form>
+      <button type="submit" class="btn btn-primary w-100 mt-3" [disabled]="formularioReceta.invalid">
+        <i class="bi bi-plus-circle-fill me-2"></i>
+        Añadir Receta
+      </button>
+    </form>
 
-    </div>
   </div>
 </div>

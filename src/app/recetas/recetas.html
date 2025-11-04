@@ -1,16 +1,34 @@
-<div class="container mt-5">
-    <h2 class="text-center">Mis Recetas</h2>
-    <hr>
-    <div class="row">
-        @if (recetas.length === 0) {
-        <div class="col-12">
-            <p class="text-center">No hay recetas disponibles.</p>
+<div class="container mt-5 mb-5">
+
+    <div class="row g-5">
+
+        <div class="col-lg-4">
+            <div class="sticky-lg-top" style="top: 80px;">
+                <app-receta-form (agregarReceta)="agregarReceta($event)" />
+            </div>
         </div>
-        } @else {
-        <div class="col-12 col-md-6 col-lg-3" *ngFor="let receta of recetas; track $index">
-            <app-receta-card [receta]="receta" (borrarReceta)="borrarReceta($event)"></app-receta-card>
+
+        <div class="col-lg-8">
+            <h2 class="text-center text-lg-start">Mis Recetas</h2>
+            <hr class="mb-4">
+
+            <div class="row g-4">
+
+                @for (receta of recetas; track $index) {
+
+                <div class="col-12 col-md-6 col-lg-4">
+                    <app-receta-card [receta]="receta" (borrarReceta)="borrarReceta($event)"></app-receta-card>
+                </div>
+
+                } @empty {
+                <div class="col-12">
+                    <div class="alert alert-info" role="alert">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        No hay recetas disponibles. ¡Añade la primera desde el formulario!
+                    </div>
+                </div>
+                }
+            </div>
         </div>
-        }
     </div>
 </div>
-<app-receta-form (agregarReceta)="agregarReceta($event)" />
