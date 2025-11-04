@@ -14,7 +14,7 @@ export class RecetaForm {
   
   formularioReceta = new FormGroup({
     nombre: new FormControl('', [Validators.required]),
-    urlImagen: new FormControl('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyMDg4NDh8MHwxfGFsbHwxfHx8fHx8fHwxNjE2MTg0OTI4&ixlib-rb-1.2.1&q=80&w=400', [Validators.required]),
+    urlImagen: new FormControl('', [Validators.required]),
     ingredientes: new FormControl('', [Validators.required])
   });
 
