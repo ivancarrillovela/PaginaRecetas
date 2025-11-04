@@ -2,9 +2,15 @@
     <h2 class="text-center">Mis Recetas</h2>
     <hr>
     <div class="row">
+        @if (recetas.length === 0) {
+        <div class="col-12">
+            <p class="text-center">No hay recetas disponibles.</p>
+        </div>
+        } @else {
         <div class="col-12 col-md-6 col-lg-3" *ngFor="let receta of recetas; track $index">
             <app-receta-card [receta]="receta" (borrarReceta)="borrarReceta($event)"></app-receta-card>
         </div>
+        }
     </div>
 </div>
 <app-receta-form (agregarReceta)="agregarReceta($event)" />
