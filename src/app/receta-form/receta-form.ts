@@ -2,8 +2,6 @@ import { Component, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RecetaModel } from '../models/RecetaModel';
 
-type DatosReceta = Omit<RecetaModel, 'id'>;
-
 @Component({
   selector: 'app-receta-form',
   standalone: true,
@@ -11,9 +9,9 @@ type DatosReceta = Omit<RecetaModel, 'id'>;
   templateUrl: './receta-form.html',
   styleUrl: './receta-form.scss'
 })
-export class RecetaFormComponent {
+export class RecetaForm {
 
-  agregarReceta = output<DatosReceta>();
+  agregarReceta = output<RecetaModel>();
   
   formularioReceta = new FormGroup({
     nombre: new FormControl('', [Validators.required]),
@@ -35,6 +33,7 @@ export class RecetaFormComponent {
 
   enviarFormulario() {
     if (this.formularioReceta.invalid) {
+      alert('Formulario invalido');
       return;
     }
 
@@ -44,7 +43,7 @@ export class RecetaFormComponent {
 
     const valorFormulario = this.formularioReceta.value;
 
-    const nuevaReceta: DatosReceta = {
+    const nuevaReceta: RecetaModel = {
       nombre: valorFormulario.nombre!,
       urlImagen: valorFormulario.urlImagen!,
       ingredientes: arrayIngredientes,
