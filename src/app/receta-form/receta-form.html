@@ -7,7 +7,6 @@
       <div class="mb-3">
         <label for="nombre" class="form-label">Nombre</label>
         <input type="text" id="nombre" class="form-control" formControlName="nombre">
-        
         @if (nombre?.invalid && (nombre?.dirty || nombre?.touched)) {
           <div class="text-danger small mt-1">
             @if (nombre?.errors?.['required']) {
@@ -32,7 +31,6 @@
       <div class="mb-3">
         <label for="ingredientes" class="form-label">Ingredientes (uno por línea)</label>
         <textarea id="ingredientes" class="form-control" rows="4" formControlName="ingredientes"></textarea>
-        
         @if (ingredientes?.invalid && (ingredientes?.dirty || ingredientes?.touched)) {
           <div class="text-danger small mt-1">
             @if (ingredientes?.errors?.['required']) {

@@ -4,7 +4,6 @@ import { RecetaModel } from '../models/RecetaModel';
 
 @Component({
   selector: 'app-receta-form',
-  standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './receta-form.html',
   styleUrl: './receta-form.scss'
