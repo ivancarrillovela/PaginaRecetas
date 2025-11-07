@@ -1,35 +1,47 @@
-<div class="container mt-5 mb-5">
+<div class="container py-5">
 
-    <div class="row g-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-dark mb-3">
+            <i class="bi bi-book-half text-danger me-2"></i>
+            Mis Recetas
+        </h1>
+        <p class="lead text-muted">Descubre, crea y comparte tus mejores recetas</p>
+    </div>
 
-        <div class="col-lg-8">
-            <h2 class="text-center text-lg-start">Mis Recetas</h2>
-            <hr class="mb-4">
-
-            <div class="row g-4">
-
-                @for (receta of recetas; track $index) {
-
-                <div class="col-12 col-md-6 col-lg-4">
-                    <app-receta-card [receta]="receta" (borrarReceta)="borrarReceta($event)"></app-receta-card>
-                </div>
-
-                } @empty {
-                <div class="col-12">
-                    <div class="alert alert-info" role="alert">
-                        <i class="bi bi-info-circle-fill me-2"></i>
-                        No hay recetas disponibles. ¡Añade la primera desde el formulario!
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4 mb-5">
+        
+        @for (receta of recetas; track $index) {
+            <div class="col">
+                <app-receta-card [receta]="receta" (borrarReceta)="borrarReceta($event)"></app-receta-card>
+            </div>
+        } @empty {
+            <div class="col-12">
+                <div class="card border-0 bg-light text-center py-5">
+                    <div class="card-body">
+                        <i class="bi bi-inbox display-1 text-muted mb-3"></i>
+                        <h3 class="text-muted mb-3">No tienes recetas todavía</h3>
+                        <p class="text-muted mb-4">¡Empieza a crear tu colección de recetas favoritas!</p>
+                        <a href="#formularioRecetas" class="btn btn-danger btn-lg">
+                            <i class="bi bi-plus-circle me-2"></i>Crear mi primera receta
+                        </a>
                     </div>
                 </div>
-                }
             </div>
-        </div>
-
-        <div id="formularioRecetas" class="col-lg-4">
-            <div>
-                <app-receta-form (agregarReceta)="agregarReceta($event)" />
-            </div>
-        </div>
-
+        }
+        
     </div>
+
+    <div id="formularioRecetas" class="row justify-content-center mt-5 pt-5">
+        <div class="col-lg-8 col-xl-7">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold text-dark">
+                    <i class="bi bi-pencil-square text-danger me-2"></i>
+                    ¿Una Nueva Receta?
+                </h2>
+                <p class="text-muted">Completa el formulario para agregar una nueva receta a tu colección</p>
+            </div>
+            <app-receta-form (agregarReceta)="agregarReceta($event)" />
+        </div>
+    </div>
+
 </div>
