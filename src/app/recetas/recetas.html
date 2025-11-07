@@ -2,12 +2,6 @@
 
     <div class="row g-5">
 
-        <div class="col-lg-4">
-            <div class="sticky-lg-top" style="top: 80px;">
-                <app-receta-form (agregarReceta)="agregarReceta($event)" />
-            </div>
-        </div>
-
         <div class="col-lg-8">
             <h2 class="text-center text-lg-start">Mis Recetas</h2>
             <hr class="mb-4">
@@ -30,5 +24,12 @@
                 }
             </div>
         </div>
+
+        <div id="formularioRecetas" class="col-lg-4">
+            <div>
+                <app-receta-form (agregarReceta)="agregarReceta($event)" />
+            </div>
+        </div>
+
     </div>
 </div>
