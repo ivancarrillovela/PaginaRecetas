@@ -1,5 +1,13 @@
-<div class="card shadow-lg border-0 rounded-3" #formularioCard>
-  <div class="card-header bg-gradient rounded-top-3">
+<div class="text-center mb-5">
+  <h2 class="fw-bold text-dark mb-3">
+    <i class="bi bi-pencil-square text-danger me-2"></i>
+    ¿Una Nueva Receta?
+  </h2>
+  <p class="text-muted">Completa el formulario para agregar una nueva receta a tu colección</p>
+</div>
+
+<div class="card shadow-lg border-0 rounded-3">
+  <div class="card-header bg-danger text-white bg-gradient rounded-top-3">
     <h5 class="card-title mb-0">
       <i class="bi bi-plus-circle me-2"></i>Añadir Nueva Receta
     </h5>
@@ -12,7 +20,8 @@
         <label for="nombre" class="form-label fw-semibold">
           <i class="bi bi-book me-2 text-danger"></i>Nombre de la Receta:
         </label>
-        <input type="text" id="nombre" class="form-control form-control-lg border-2" formControlName="nombre" placeholder="Ej: Pasta Carbonara">
+        <input type="text" id="nombre" class="form-control form-control-lg border-2" formControlName="nombre"
+          placeholder="Ej: Pasta Carbonara">
         @if (nombre?.invalid && (nombre?.dirty || nombre?.touched)) {
         <div class="alert alert-danger alert-sm py-2 mt-2 mb-0" role="alert">
           <i class="bi bi-exclamation-circle me-1"></i>
@@ -27,7 +36,8 @@
         <label for="urlImagen" class="form-label fw-semibold">
           <i class="bi bi-image me-2 text-danger"></i>URL de la Imagen:
         </label>
-        <input type="text" id="urlImagen" class="form-control form-control-lg border-2" formControlName="urlImagen" placeholder="https://ejemplo.com/imagen.jpg">
+        <input type="text" id="urlImagen" class="form-control form-control-lg border-2" formControlName="urlImagen"
+          placeholder="https://ejemplo.com/imagen.jpg">
         @if (urlImagen?.invalid && (urlImagen?.dirty || urlImagen?.touched)) {
         <div class="alert alert-danger alert-sm py-2 mt-2 mb-0" role="alert">
           <i class="bi bi-exclamation-circle me-1"></i>
@@ -42,7 +52,8 @@
         <label for="ingredientes" class="form-label fw-semibold">
           <i class="bi bi-list-check me-2 text-danger"></i>Ingredientes (uno por línea):
         </label>
-        <textarea id="ingredientes" class="form-control border-2" rows="5" formControlName="ingredientes" placeholder="Ej: 400g de pasta&#10;200g de jamón&#10;4 huevos"></textarea>
+        <textarea id="ingredientes" class="form-control border-2" rows="5" formControlName="ingredientes"
+          placeholder="Ej: 400g de pasta&#10;200g de jamón&#10;4 huevos"></textarea>
         @if (ingredientes?.invalid && (ingredientes?.dirty || ingredientes?.touched)) {
         <div class="alert alert-danger alert-sm py-2 mt-2 mb-0" role="alert">
           <i class="bi bi-exclamation-circle me-1"></i>
