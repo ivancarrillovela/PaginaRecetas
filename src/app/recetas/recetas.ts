@@ -4,6 +4,7 @@ import { RecetaCard } from "../receta-card/receta-card";
 import { RecetaModel } from '../models/RecetaModel';
 import { Filtro } from '../filtro/filtro';
 import { CommonModule } from '@angular/common';
+import { EstadoVacio } from "../estado-vacio/estado-vacio";
 
 // Los datos por defecto, como pediste
 const RECETAS_POR_DEFECTO: RecetaModel[] = [
@@ -32,7 +33,7 @@ const RECETAS_POR_DEFECTO: RecetaModel[] = [
 @Component({
   selector: 'app-recetas',
   standalone: true,
-  imports: [RecetaCard, RecetaForm, CommonModule, Filtro],
+  imports: [RecetaCard, RecetaForm, CommonModule, Filtro, EstadoVacio],
   templateUrl: './recetas.html',
   styleUrl: './recetas.scss'
 })
