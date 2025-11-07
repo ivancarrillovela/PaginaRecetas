@@ -8,9 +8,11 @@
         <p class="lead text-muted">Descubre, crea y comparte tus mejores recetas</p>
     </div>
 
+    <app-filtro-recetas (filtrar)="onFiltroCambiado($event)"></app-filtro-recetas>
+
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4 mb-5">
 
-        @for (receta of recetas; track $index) {
+        @for (receta of recetasFiltradas; track $index) {
         <div class="col">
             <app-receta-card [receta]="receta" (borrarReceta)="borrarReceta($event)"></app-receta-card>
         </div>
@@ -19,11 +21,17 @@
             <div class="card border-0 bg-light text-center py-5">
                 <div class="card-body">
                     <i class="bi bi-inbox display-1 text-muted mb-3"></i>
+
+                    @if (filtroActual) {
+                    <h3 class="text-muted mb-3">No hay coincidencias</h3>
+                    <p class="text-muted mb-4">No se encontraron recetas con el nombre "{{filtroActual}}".</p>
+                    } @else {
                     <h3 class="text-muted mb-3">No tienes recetas todavía</h3>
                     <p class="text-muted mb-4">¡Empieza a crear tu colección de recetas favoritas!</p>
                     <a href="#formularioRecetas" class="btn btn-danger btn-lg">
                         <i class="bi bi-plus-circle me-2"></i>Crear mi primera receta
                     </a>
+                    }
                 </div>
             </div>
         </div>
@@ -33,6 +41,13 @@
 
     <div id="formularioRecetas" class="row justify-content-center mt-5 pt-5">
         <div class="col-lg-8 col-xl-7">
+            <div class="text-center mb-4">
+                <h2 class="fw-bold text-dark">
+                    <i class="bi bi-pencil-square text-danger me-2"></i>
+                    ¿Una Nueva Receta?
+                </h2>
+                <p class="text-muted">Completa el formulario para agregar una nueva receta a tu colección</p>
+            </div>
             <app-receta-form (agregarReceta)="agregarReceta($event)" />
         </div>
     </div>

@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RecetaForm } from '../receta-form/receta-form';
 import { RecetaCard } from "../receta-card/receta-card";
 import { RecetaModel } from '../models/RecetaModel';
+import { Filtro } from '../filtro/filtro';
 import { CommonModule } from '@angular/common';
 
 // Los datos por defecto, como pediste
@@ -30,24 +31,60 @@ const RECETAS_POR_DEFECTO: RecetaModel[] = [
 
 @Component({
   selector: 'app-recetas',
-  imports: [RecetaCard, RecetaForm, CommonModule],
+  standalone: true,
+  imports: [RecetaCard, RecetaForm, CommonModule, Filtro],
   templateUrl: './recetas.html',
   styleUrl: './recetas.scss'
 })
+export class Recetas implements OnInit {
 
-export class Recetas {
+  // Lista que nunca cambia (excepto al añadir/borrar)
+  recetasMaestra: RecetaModel[] = RECETAS_POR_DEFECTO;
 
-  recetas: RecetaModel[] = RECETAS_POR_DEFECTO;
+  // Lista que se mostrará en la plantilla
+  recetasFiltradas: RecetaModel[] = [];
 
-  agregarReceta(nuevaReceta: RecetaModel) {
-    this.recetas.push(nuevaReceta);
+  // Guardamos el texto del filtro actual (lo hacemos público para usarlo en el HTML)
+  public filtroActual: string = '';
+
+  // Usamos ngOnInit para inicializar la lista filtrada
+  ngOnInit() {
+    this.recetasFiltradas = [...this.recetasMaestra];
   }
 
-  borrarReceta($event: string) {
-    const index = this.recetas.findIndex(r => r.nombre === $event);
-    if (index !== -1) {
-      this.recetas.splice(index, 1);
+  // Nuevo método que se llama cuando el filtro emite un valor
+  onFiltroCambiado(textoFiltro: string) {
+    this.filtroActual = textoFiltro.toLowerCase().trim();
+
+    if (!this.filtroActual) {
+      // Si no hay filtro, mostramos todas
+      this.recetasFiltradas = [...this.recetasMaestra];
+    } else {
+      // Si hay filtro, filtramos la lista maestra
+      this.recetasFiltradas = this.recetasMaestra.filter(receta => 
+        receta.nombre.toLowerCase().includes(this.filtroActual)
+      );
     }
+  }
+
+  // Modificamos agregarReceta
+  agregarReceta(nuevaReceta: RecetaModel) {
+    // Añadimos a la lista maestra
+    this.recetasMaestra.push(nuevaReceta);
+    // Re-aplicamos el filtro
+    this.onFiltroCambiado(this.filtroActual);
+  }
+
+  // Modificamos borrarReceta
+  borrarReceta(nombreReceta: string) {
+    // Lo borramos de la lista maestra
+    const indexMaestra = this.recetasMaestra.findIndex(r => r.nombre === nombreReceta);
+    if (indexMaestra !== -1) {
+      this.recetasMaestra.splice(indexMaestra, 1);
+    }
+
+    // Re-aplicamos el filtro (esto también actualiza la lista filtrada)
+    this.onFiltroCambiado(this.filtroActual);
   }
 
 }

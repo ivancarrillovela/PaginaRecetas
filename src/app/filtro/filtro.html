@@ -1,0 +1,18 @@
+<div class="card shadow-sm border-0 rounded-3 mb-4">
+    <div class="card-body p-4">
+        <div class="input-group input-group-lg">
+            <span class="input-group-text bg-white border-end-0 text-danger">
+                <i class="bi bi-search"></i>
+            </span>
+
+            <input type="text" class="form-control border-start-0" placeholder="Buscar receta por nombre..."
+                [formControl]="filtroControl" aria-label="Filtro de recetas">
+
+            @if (filtroControl.value) {
+            <button class="btn btn-outline-secondary border-start-0" type="button" (click)="limpiarFiltro()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+            }
+        </div>
+    </div>
+</div>
