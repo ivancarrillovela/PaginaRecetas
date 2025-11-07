@@ -10,13 +10,7 @@
 
     <app-filtro-recetas (filtrar)="onFiltroCambiado($event)"></app-filtro-recetas>
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4 mb-5">
-
-        @for (receta of recetasFiltradas; track $index) {
-        <div class="col">
-            <app-receta-card [receta]="receta" (borrarReceta)="borrarReceta($event)"></app-receta-card>
-        </div>
-        } @empty {
+    @if (recetasFiltradas.length === 0) {
         <div class="col-12">
             <div class="card border-0 bg-light text-center py-5">
                 <div class="card-body">
@@ -35,8 +29,14 @@
                 </div>
             </div>
         </div>
-        }
+    }
 
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4 mb-5">
+        @for (receta of recetasFiltradas; track $index) {
+        <div class="col">
+            <app-receta-card [receta]="receta" (borrarReceta)="borrarReceta($event)"></app-receta-card>
+        </div>
+        } 
     </div>
 
     <div id="formularioRecetas" class="row justify-content-center mt-5 pt-5">
