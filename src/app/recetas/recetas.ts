@@ -50,6 +50,9 @@ export class Recetas implements OnInit {
 
   // Usamos ngOnInit para inicializar la lista filtrada
   ngOnInit() {
+    // Usamos el operador "spread" (...) para crear una COPIA
+    // de la lista maestra. Esto evita que al filtrar
+    // modifiquemos la lista original (recetasMaestra).
     this.recetasFiltradas = [...this.recetasMaestra];
   }
 
@@ -58,7 +61,7 @@ export class Recetas implements OnInit {
     this.filtroActual = textoFiltro.toLowerCase().trim();
 
     if (!this.filtroActual) {
-      // Si no hay filtro, mostramos todas
+      // Si no hay filtro, mostramos todas (creando una nueva copia)
       this.recetasFiltradas = [...this.recetasMaestra];
     } else {
       // Si hay filtro, filtramos la lista maestra

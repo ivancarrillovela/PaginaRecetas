@@ -1,5 +1,5 @@
 <div class="card shadow-lg border-0 rounded-3">
-  <div class="card-header bg-danger text-white bg-gradient rounded-top-3">
+  <div class="card-header bg-primary text-white bg-gradient rounded-top-3">
     <h5 class="card-title mb-0">
       <i class="bi bi-plus-circle me-2"></i>Añadir Nueva Receta
     </h5>
@@ -10,7 +10,7 @@
 
       <div class="mb-4">
         <label for="nombre" class="form-label fw-semibold">
-          <i class="bi bi-book me-2 text-danger"></i>Nombre de la Receta:
+          <i class="bi bi-book me-2 text-primary"></i>Nombre de la Receta:
         </label>
         <input type="text" id="nombre" class="form-control form-control-lg border-2" formControlName="nombre"
           placeholder="Ej: Pasta Carbonara">
@@ -26,7 +26,7 @@
 
       <div class="mb-4">
         <label for="urlImagen" class="form-label fw-semibold">
-          <i class="bi bi-image me-2 text-danger"></i>URL de la Imagen:
+          <i class="bi bi-image me-2 text-primary"></i>URL de la Imagen:
         </label>
         <input type="text" id="urlImagen" class="form-control form-control-lg border-2" formControlName="urlImagen"
           placeholder="https://ejemplo.com/imagen.jpg">
@@ -42,7 +42,7 @@
 
       <div class="mb-4">
         <label for="ingredientes" class="form-label fw-semibold">
-          <i class="bi bi-list-check me-2 text-danger"></i>Ingredientes (uno por línea):
+          <i class="bi bi-list-check me-2 text-primary"></i>Ingredientes (uno por línea):
         </label>
         <textarea id="ingredientes" class="form-control border-2" rows="5" formControlName="ingredientes"
           placeholder="Ej: 400g de pasta&#10;200g de jamón&#10;4 huevos"></textarea>
@@ -56,7 +56,7 @@
         }
       </div>
 
-      <button type="submit" class="btn btn-danger btn-lg w-100 mt-4 fw-semibold" [disabled]="formularioReceta.invalid">
+      <button type="submit" class="btn btn-primary btn-lg w-100 mt-4 fw-semibold" [disabled]="formularioReceta.invalid">
         <i class="bi bi-plus-circle-fill me-2"></i>
         Añadir Receta
       </button>

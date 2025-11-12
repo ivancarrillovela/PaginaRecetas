@@ -1,0 +1,15 @@
+// Efecto "lift" (elevar) para las tarjetas de receta al pasar el ratón
+
+// :host selecciona el elemento raíz de ESTE componente (<app-receta-card>)
+// Al estar en un fichero .scss propio del componente, 
+// no es necesario el selector 'app-receta-card' global.
+:host {
+  .card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+
+  .card:hover {
+    transform: translateY(-5px); // Mueve la tarjeta 5px hacia arriba
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important; // Sombra más pronunciada
+  }
+}

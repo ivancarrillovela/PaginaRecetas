@@ -1,14 +1,10 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
 
-// Efecto "lift" (elevar) para las tarjetas de receta al pasar el ratón
-
-app-receta-card {
-    .card {
-        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    }
-
-    .card:hover {
-        transform: translateY(-5px); // Mueve la tarjeta 5px hacia arriba
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important; // Sombra más pronunciada
-    }
+:root {
+  // Sobrescribimos el color primario de Bootstrap para que sea rojo
+  --bs-primary: red;
+  --bs-primary-rgb: 255, 0, 0;
+  --bs-primary-text-emphasis: rgba(255, 0, 0, 0.9);
+  --bs-primary-bg-subtle: rgba(255, 0, 0, 0.1);
+  --bs-primary-border-subtle: rgba(255, 0, 0, 0.2);
 }
