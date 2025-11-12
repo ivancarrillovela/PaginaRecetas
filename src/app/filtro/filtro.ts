@@ -1,44 +1,40 @@
-import { Component, OnInit, OnDestroy, output } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { takeUntil, debounceTime } from 'rxjs/operators';
-import { CommonModule } from '@angular/common';
+import { Component, output } from '@angular/core';
+import { CommonModule } from '@angular/common'; // Importamos CommonModule para @if
 
 @Component({
   selector: 'app-filtro-recetas',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule], // Ya no necesitamos ReactiveFormsModule
   templateUrl: './filtro.html',
 })
-export class Filtro implements OnInit, OnDestroy {
+export class Filtro {
   
   // Evento que emite el texto del filtro
   filtrar = output<string>();
 
-  // FormControl para el campo de búsqueda reactivo
-  filtroControl = new FormControl('');
+  // Propiedad para guardar el valor actual del input
+  public valorInput: string = '';
 
-  // Subject para manejar la desuscripción
-  private destroyed$ = new Subject<void>();
-
-  ngOnInit() {
-    // Escuchamos los cambios en el campo de texto
-    this.filtroControl.valueChanges.pipe(
-      debounceTime(300), // Espera 300ms después de la última pulsación
-      takeUntil(this.destroyed$) // Se desuscribe al destruir el componente
-    ).subscribe(valor => {
-      this.filtrar.emit(valor || ''); // Emitimos el valor (o un string vacío si es null)
-    });
+  /**
+   * Se llama cada vez que el usuario teclea en el input.
+   * Emite el valor del input directamente.
+   */
+  onFiltroCambiado(event: Event) {
+    // Obtenemos el elemento <input> que disparó el evento
+    const input = event.target as HTMLInputElement;
+    
+    // Actualizamos nuestra propiedad interna
+    this.valorInput = input.value;
+    
+    // Emitimos el valor al componente padre
+    this.filtrar.emit(this.valorInput);
   }
 
-  ngOnDestroy() {
-    // Completamos el Subject para desuscribirnos
-    this.destroyed$.next();
-    this.destroyed$.complete();
-  }
-
-  // Método para limpiar el filtro desde la UI
+  /**
+   * Limpia el input y emite un valor vacío.
+   */
   limpiarFiltro() {
-    this.filtroControl.setValue('');
+    this.valorInput = '';
+    this.filtrar.emit('');
   }
 }

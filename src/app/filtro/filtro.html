@@ -5,10 +5,15 @@
                 <i class="bi bi-search"></i>
             </span>
 
-            <input type="text" class="form-control border-start-0" placeholder="Buscar receta por nombre..."
-                [formControl]="filtroControl" aria-label="Filtro de recetas">
+            <input 
+                type="text" 
+                class="form-control border-start-0" 
+                placeholder="Buscar receta por nombre..."
+                aria-label="Filtro de recetas"
+                [value]="valorInput" 
+                (input)="onFiltroCambiado($event)">
 
-            @if (filtroControl.value) {
+            @if (valorInput) {
             <button class="btn btn-outline-secondary border-start-0" type="button" (click)="limpiarFiltro()">
                 <i class="bi bi-x-lg"></i>
             </button>
