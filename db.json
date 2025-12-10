@@ -1,0 +1,89 @@
+{
+  "recetas": [
+    {
+      "id": "1",
+      "nombre": "Gazpacho Andaluz",
+      "ingredientes": [
+        "1kg Tomates maduros",
+        "1 Pimiento verde",
+        "1 Pepino",
+        "2 Dientes de ajo",
+        "50ml Aceite de oliva",
+        "Vinagre y Sal"
+      ],
+      "urlImagen": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Gazpacho_con_huevo_cocido_y_jam%C3%B3n.jpg/800px-Gazpacho_con_huevo_cocido_y_jam%C3%B3n.jpg",
+      "puntuacion": 4.8,
+      "votos": 120
+    },
+    {
+      "id": "2",
+      "nombre": "Tortilla de Patatas",
+      "ingredientes": [
+        "4 Patatas grandes",
+        "6 Huevos",
+        "1 Cebolla",
+        "Aceite de oliva virgen extra",
+        "Sal"
+      ],
+      "urlImagen": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Tortilla_de_Patatas.jpg/800px-Tortilla_de_Patatas.jpg",
+      "puntuacion": 5,
+      "votos": 340
+    },
+    {
+      "id": "3",
+      "nombre": "Paella Valenciana",
+      "ingredientes": [
+        "400g Arroz bomba",
+        "500g Pollo",
+        "500g Conejo",
+        "Judía verde y Garrofón",
+        "Azafrán y Pimentón"
+      ],
+      "urlImagen": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Paella_valenciana02.jpg/800px-Paella_valenciana02.jpg",
+      "puntuacion": 4.2,
+      "votos": 85
+    },
+    {
+      "id": "4",
+      "nombre": "Ensalada César",
+      "ingredientes": [
+        "Lechuga romana",
+        "Picatostes (Croutons)",
+        "Queso parmesano",
+        "Pechuga de pollo",
+        "Salsa César"
+      ],
+      "urlImagen": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Caesar_salad_%282%29.jpg/800px-Caesar_salad_%282%29.jpg",
+      "puntuacion": 3.5,
+      "votos": 45
+    },
+    {
+      "id": "5",
+      "nombre": "Brownie de Chocolate",
+      "ingredientes": [
+        "200g Chocolate negro",
+        "150g Mantequilla",
+        "200g Azúcar",
+        "3 Huevos",
+        "100g Harina y Nueces"
+      ],
+      "urlImagen": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Brownie_imp.jpg/800px-Brownie_imp.jpg",
+      "puntuacion": 4.9,
+      "votos": 210
+    },
+    {
+      "id": "6",
+      "nombre": "Lentejas con Chorizo",
+      "ingredientes": [
+        "300g Lentejas pardinas",
+        "1 Chorizo",
+        "1 Zanahoria y 1 Patata",
+        "1 Cebolla y 2 Ajos",
+        "Pimentón dulce y Laurel"
+      ],
+      "urlImagen": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Lentejas_con_chorizo_y_jam%C3%B3n.jpg/800px-Lentejas_con_chorizo_y_jam%C3%B3n.jpg",
+      "puntuacion": 4.0,
+      "votos": 60
+    }
+  ]
+}
