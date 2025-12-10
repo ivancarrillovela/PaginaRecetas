@@ -1,38 +1,49 @@
 <div class="container py-5">
+  <div class="text-center mb-5">
+    <h1 class="display-4 fw-bold">Mis Recetas</h1>
+  </div>
 
-    <div class="text-center mb-5">
-        <h1 class="display-4 fw-bold text-dark mb-3">
-            <i class="bi bi-book-half text-primary me-2"></i>
-            Mis Recetas
-        </h1>
-        <p class="lead text-muted">Descubre, crea y comparte tus mejores recetas</p>
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <app-filtro-recetas (filtrar)="actualizarFiltroNombre($event)"></app-filtro-recetas>
     </div>
+    <div class="col-md-4">
+      <select class="form-select form-select-lg" (change)="actualizarFiltroEstrellas($event)">
+        <option value="0">Todas las valoraciones</option>
+        <option value="3">⭐ 3+ Estrellas</option>
+        <option value="4">⭐ 4+ Estrellas</option>
+        <option value="5">⭐ 5 Estrellas</option>
+      </select>
+    </div>
+  </div>
 
-    <app-filtro-recetas (filtrar)="onFiltroCambiado($event)"></app-filtro-recetas>
-
-    @if (recetasFiltradas.length === 0) {
-        <app-estado-vacio [filtroActual]="filtroActual"></app-estado-vacio>
+  @if (recetasAsync$ | async; as recetas) {
+    
+    @if (recetas.length === 0) {
+      <app-estado-vacio [filtroActual]="filtroNombre()"></app-estado-vacio>
     }
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4 mb-5">
-        @for (receta of recetasFiltradas; track $index) {
+      @for (receta of recetas; track receta.id) {
         <div class="col">
-            <app-receta-card [receta]="receta" (borrarReceta)="borrarReceta($event)"></app-receta-card>
+          <app-receta-card 
+            [receta]="receta" 
+            (borrarReceta)="borrarReceta($event)"
+            (votarReceta)="procesarVoto(receta.id, $event)">
+          </app-receta-card>
         </div>
-        } 
+      } 
     </div>
 
-    <div id="formularioRecetas" class="row justify-content-center mt-5 pt-5">
-        <div class="col-lg-8 col-xl-7">
-            <div class="text-center mb-4">
-                <h2 class="fw-bold text-dark">
-                    <i class="bi bi-pencil-square text-primary me-2"></i>
-                    ¿Una Nueva Receta?
-                </h2>
-                <p class="text-muted">Completa el formulario para agregar una nueva receta a tu colección</p>
-            </div>
-            <app-receta-form (agregarReceta)="agregarReceta($event)" />
-        </div>
+  } @else {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary" role="status"></div>
     </div>
+  }
 
+  <div class="row justify-content-center mt-5">
+    <div class="col-lg-8">
+      <app-receta-form (agregarReceta)="agregarReceta($event)" />
+    </div>
+  </div>
 </div>

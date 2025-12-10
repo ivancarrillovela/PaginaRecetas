@@ -1,94 +1,69 @@
-import { Component, OnInit } from '@angular/core';
-import { RecetaForm } from '../receta-form/receta-form';
-import { RecetaCard } from "../receta-card/receta-card";
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { CommonModule, AsyncPipe } from '@angular/common'; // Importar AsyncPipe
+import { Observable, startWith, switchMap, map } from 'rxjs';
 import { RecetaModel } from '../models/RecetaModel';
+import { RecetaCard } from '../receta-card/receta-card';
+import { RecetaForm } from '../receta-form/receta-form';
 import { Filtro } from '../filtro/filtro';
-import { CommonModule } from '@angular/common';
-import { EstadoVacio } from "../estado-vacio/estado-vacio";
-
-// Los datos por defecto, como pediste
-const RECETAS_POR_DEFECTO: RecetaModel[] = [
-  new RecetaModel(
-    'Gazpacho Andaluz',
-    ['1kg Tomates', '1 Pepino', '1 Pimiento Verde', '1/2 Cebolla', '1 Diente de Ajo', 'Aceite de Oliva', 'Vinagre'],
-    'https://tse4.mm.bing.net/th/id/OIP.tiDj3kVhJ7y4pqaNwdQLNQHaE5?rs=1&pid=ImgDetMain&o=7&rm=3'
-  ),
-  new RecetaModel(
-    'Croquetas de Jamón',
-    ['100g Jamón Serrano', '50g Mantequilla', '50g Harina', '500ml Leche', 'Aceite para freír'],
-    'https://www.demoslavueltaaldia.com/sites/default/files/croquetas-jamon-serrano.jpg'
-  ),
-  new RecetaModel(
-    'Pulpo a la Gallega',
-    ['1 Pulpo', 'Patatas', 'Pimentón', 'Aceite de Oliva'],
-    'https://images.unsplash.com/photo-1600891964599-f61ba0e24092?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyMDg4NDh8MHwxfGFsbHwxfHx8fHx8fHwxNjE2MTg0OTI4&ixlib.rb-1.2.1&q=80&w=400'
-  ),
-  new RecetaModel(
-    'Fabada Asturiana',
-    ['400g Fabes', '200g Chorizo', '200g Morcilla', '100g Tocino', '1 Cebolla', '2 Dientes de Ajo', 'Pimentón'],
-    'https://th.bing.com/th/id/OIP.PCuUifmIIEtsEAgxA92t_gHaE6?w=276&h=183&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3'
-  ),
-];
+import { EstadoVacio } from '../estado-vacio/estado-vacio';
+import { RecetasService } from '../services/recetas.service';
 
 @Component({
   selector: 'app-recetas',
   standalone: true,
-  imports: [RecetaCard, RecetaForm, CommonModule, Filtro, EstadoVacio],
+  imports: [CommonModule, AsyncPipe, RecetaCard, RecetaForm, Filtro, EstadoVacio],
   templateUrl: './recetas.html',
   styleUrl: './recetas.scss'
 })
 export class Recetas implements OnInit {
+  private recetasService = inject(RecetasService);
 
-  // Lista que nunca cambia (excepto al añadir/borrar)
-  recetasMaestra: RecetaModel[] = RECETAS_POR_DEFECTO;
+  filtroNombre = signal('');
+  filtroMinEstrellas = signal(0); // Nuevo filtro
 
-  // Lista que se mostrará en la plantilla
-  recetasFiltradas: RecetaModel[] = [];
+  // Observable que se usará en el HTML
+  recetasAsync$!: Observable<RecetaModel[]>;
 
-  // Guardamos el texto del filtro actual (lo hacemos público para usarlo en el HTML)
-  public filtroActual: string = '';
-
-  // Usamos ngOnInit para inicializar la lista filtrada
   ngOnInit() {
-    // Usamos el operador "spread" (...) para crear una COPIA
-    // de la lista maestra. Esto evita que al filtrar
-    // modifiquemos la lista original (recetasMaestra).
-    this.recetasFiltradas = [...this.recetasMaestra];
+    // Pipeline Reactivo: Se actualiza cada vez que el servicio notifica cambios
+    this.recetasAsync$ = this.recetasService.changesOnRecetas$.pipe(
+      startWith(undefined), // Carga inicial
+      switchMap(() => this.recetasService.getRecetas()),
+      map(recetas => this.aplicarFiltros(recetas)) // Filtrado local
+    );
   }
 
-  // Nuevo método que se llama cuando el filtro emite un valor
-  onFiltroCambiado(textoFiltro: string) {
-    this.filtroActual = textoFiltro.toLowerCase().trim();
-
-    if (!this.filtroActual) {
-      // Si no hay filtro, mostramos todas (creando una nueva copia)
-      this.recetasFiltradas = [...this.recetasMaestra];
-    } else {
-      // Si hay filtro, filtramos la lista maestra
-      this.recetasFiltradas = this.recetasMaestra.filter(receta => 
-        receta.nombre.toLowerCase().includes(this.filtroActual)
-      );
-    }
+  private aplicarFiltros(recetas: RecetaModel[]): RecetaModel[] {
+    return recetas.filter(r => 
+      r.nombre.toLowerCase().includes(this.filtroNombre()) &&
+      r.puntuacion >= this.filtroMinEstrellas()
+    );
   }
 
-  // Modificamos agregarReceta
-  agregarReceta(nuevaReceta: RecetaModel) {
-    // Añadimos a la lista maestra
-    this.recetasMaestra.push(nuevaReceta);
-    // Re-aplicamos el filtro
-    this.onFiltroCambiado(this.filtroActual);
+  actualizarFiltroNombre(texto: string) {
+    this.filtroNombre.set(texto.toLowerCase());
+    this.recetasService['notifyUpdate'](); // Forzar refresco
   }
 
-  // Modificamos borrarReceta
-  borrarReceta(nombreReceta: string) {
-    // Lo borramos de la lista maestra
-    const indexMaestra = this.recetasMaestra.findIndex(r => r.nombre === nombreReceta);
-    if (indexMaestra !== -1) {
-      this.recetasMaestra.splice(indexMaestra, 1);
-    }
-
-    // Re-aplicamos el filtro (esto también actualiza la lista filtrada)
-    this.onFiltroCambiado(this.filtroActual);
+  actualizarFiltroEstrellas(event: Event) {
+    const valor = Number((event.target as HTMLSelectElement).value);
+    this.filtroMinEstrellas.set(valor);
+    this.recetasService['notifyUpdate'](); // Forzar refresco
   }
 
+  agregarReceta(datos: RecetaModel) {
+    const { id, ...resto } = datos; // Eliminamos ID ficticio si viene del form
+    const nueva = { ...resto, puntuacion: 0, votos: 0 };
+    this.recetasService.agregarReceta(nueva).subscribe();
+  }
+
+  borrarReceta(id: string) {
+    this.recetasService.borrarReceta(id).subscribe();
+  }
+
+  procesarVoto(id: string, puntuacion: number) {
+    this.recetasService.getRecetaById(id).subscribe(receta => {
+      this.recetasService.votarReceta(receta, puntuacion).subscribe();
+    });
+  }
 }
