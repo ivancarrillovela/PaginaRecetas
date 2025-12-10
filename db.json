@@ -11,13 +11,13 @@
         "50ml Aceite de oliva",
         "Vinagre y Sal"
       ],
-      "urlImagen": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Gazpacho_con_huevo_cocido_y_jam%C3%B3n.jpg/800px-Gazpacho_con_huevo_cocido_y_jam%C3%B3n.jpg",
+      "urlImagen": "https://th.bing.com/th/id/OIP.dB9RW6g_PNnGgPKOwv-sQQHaEK?w=295&h=180&c=7&r=0&o=7&cb=ucfimg2&dpr=1.5&pid=1.7&rm=3&ucfimg=1",
       "puntuacion": 4.8,
-      "votos": 120
+      "votos": 145
     },
     {
       "id": "2",
-      "nombre": "Tortilla de Patatas",
+      "nombre": "Tortilla de Patata",
       "ingredientes": [
         "4 Patatas grandes",
         "6 Huevos",
@@ -25,9 +25,9 @@
         "Aceite de oliva virgen extra",
         "Sal"
       ],
-      "urlImagen": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Tortilla_de_Patatas.jpg/800px-Tortilla_de_Patatas.jpg",
+      "urlImagen": "https://th.bing.com/th/id/OIP.-ax_sGj_2Yy99g_weC9r-wHaE8?w=245&h=180&c=7&r=0&o=7&cb=ucfimg2&dpr=1.5&pid=1.7&rm=3&ucfimg=1",
       "puntuacion": 5,
-      "votos": 340
+      "votos": 438
     },
     {
       "id": "3",
@@ -39,7 +39,7 @@
         "Judía verde y Garrofón",
         "Azafrán y Pimentón"
       ],
-      "urlImagen": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Paella_valenciana02.jpg/800px-Paella_valenciana02.jpg",
+      "urlImagen": "https://th.bing.com/th/id/OIP.scs61Nba0tBLw_fIo372YgHaFj?w=269&h=202&c=7&r=0&o=7&cb=ucfimg2&dpr=1.5&pid=1.7&rm=3&ucfimg=1",
       "puntuacion": 4.2,
       "votos": 85
     },
@@ -56,34 +56,6 @@
       "urlImagen": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Caesar_salad_%282%29.jpg/800px-Caesar_salad_%282%29.jpg",
       "puntuacion": 3.5,
       "votos": 45
-    },
-    {
-      "id": "5",
-      "nombre": "Brownie de Chocolate",
-      "ingredientes": [
-        "200g Chocolate negro",
-        "150g Mantequilla",
-        "200g Azúcar",
-        "3 Huevos",
-        "100g Harina y Nueces"
-      ],
-      "urlImagen": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Brownie_imp.jpg/800px-Brownie_imp.jpg",
-      "puntuacion": 4.9,
-      "votos": 210
-    },
-    {
-      "id": "6",
-      "nombre": "Lentejas con Chorizo",
-      "ingredientes": [
-        "300g Lentejas pardinas",
-        "1 Chorizo",
-        "1 Zanahoria y 1 Patata",
-        "1 Cebolla y 2 Ajos",
-        "Pimentón dulce y Laurel"
-      ],
-      "urlImagen": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Lentejas_con_chorizo_y_jam%C3%B3n.jpg/800px-Lentejas_con_chorizo_y_jam%C3%B3n.jpg",
-      "puntuacion": 4.0,
-      "votos": 60
     }
   ]
 }
