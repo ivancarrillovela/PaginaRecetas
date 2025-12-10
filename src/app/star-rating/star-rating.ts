@@ -8,16 +8,12 @@ import { CommonModule } from '@angular/common';
   templateUrl: './star-rating.html',
   styleUrl: './star-rating.scss'
 })
-export class StarRating {
-  // Inputs: Valoración actual y si es de solo lectura
-  rating = input<number>(0);
-  readonly = input<boolean>(false);
-
-  // Output: Emite el valor cuando el usuario hace click
-  rate = output<number>();
+export class StarRatingComponent {
+  rating = input<number>(0); // Puntuación actual (0-5)
+  readonly = input<boolean>(false); // Si es true no permite votar
+  rate = output<number>(); // Emite la puntuación seleccionada
 
   onRate(value: number) {
-    // Solo emitimos si no es de solo lectura
     if (!this.readonly()) {
       this.rate.emit(value);
     }
