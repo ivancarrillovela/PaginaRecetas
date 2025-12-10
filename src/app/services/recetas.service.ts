@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, ReplaySubject, tap } from 'rxjs';
+import { Observable, ReplaySubject, BehaviorSubject, tap } from 'rxjs';
 import { RecetaModel } from '../models/RecetaModel';
 
 @Injectable({
@@ -8,51 +8,56 @@ import { RecetaModel } from '../models/RecetaModel';
 })
 export class RecetasService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/recetas'; // URL de json-server
+  private apiUrl = 'http://localhost:3000/recetas';
 
-  // Patrón Reactivo: Notificador de cambios
+  // --- Estado Reactivo ---
+  // Refrescar lista de recetas
   private updateSubject = new ReplaySubject<void>(1);
   public changesOnRecetas$ = this.updateSubject.asObservable();
 
-  // Obtener todas las recetas
+  // Control Global del Modal de Formulario
+  private formOpenSubject = new BehaviorSubject<boolean>(false);
+  public formOpen$ = this.formOpenSubject.asObservable();
+
+  // --- Métodos de Control del Modal ---
+  abrirFormularioGlobal() {
+    this.formOpenSubject.next(true);
+  }
+
+  cerrarFormularioGlobal() {
+    this.formOpenSubject.next(false);
+  }
+
+  // --- Métodos HTTP ---
   getRecetas(): Observable<RecetaModel[]> {
     return this.http.get<RecetaModel[]>(this.apiUrl);
   }
 
-  // Obtener una receta por ID
   getRecetaById(id: string): Observable<RecetaModel> {
     return this.http.get<RecetaModel>(`${this.apiUrl}/${id}`);
   }
 
-  // Agregar receta
   agregarReceta(receta: Omit<RecetaModel, 'id'>): Observable<RecetaModel> {
     return this.http.post<RecetaModel>(this.apiUrl, receta).pipe(
-      tap(() => this.notifyUpdate()) // Notificar cambio al terminar
+      tap(() => this.updateSubject.next()) // Notificar cambio
     );
   }
 
-  // Borrar receta
   borrarReceta(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
-      tap(() => this.notifyUpdate())
+      tap(() => this.updateSubject.next())
     );
   }
 
-  // Votar receta (Cálculo de media ponderada)
   votarReceta(receta: RecetaModel, puntuacionUsuario: number): Observable<RecetaModel> {
     const nuevosVotos = receta.votos + 1;
-    // Fórmula: ((MediaActual * VotosActuales) + NuevoVoto) / NuevosVotos
     const nuevaMedia = ((receta.puntuacion * receta.votos) + puntuacionUsuario) / nuevosVotos;
 
     return this.http.patch<RecetaModel>(`${this.apiUrl}/${receta.id}`, {
       puntuacion: parseFloat(nuevaMedia.toFixed(1)),
       votos: nuevosVotos
     }).pipe(
-      tap(() => this.notifyUpdate()) // Notificar cambio para refrescar vistas
+      tap(() => this.updateSubject.next())
     );
-  }
-
-  private notifyUpdate() {
-    this.updateSubject.next();
   }
 }

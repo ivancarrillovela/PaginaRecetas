@@ -1,13 +1,10 @@
-// Efecto de degradado sutil en la parte inferior de la imagen (opcional)
 .bg-gradient-to-top {
   background: linear-gradient(to top, rgba(0,0,0,0.05), transparent);
 }
 
-// Animación suave para los items de ingredientes
 .hover-border-primary {
   transition: all 0.2s ease-in-out;
   border-color: transparent;
-  
   &:hover {
     border-color: var(--bs-primary) !important;
     background-color: var(--bs-primary-bg-subtle) !important;
@@ -15,23 +12,8 @@
   }
 }
 
-// Ajuste fino para el botón cerrar flotante
 .btn-close {
   transition: transform 0.2s ease;
-  background-size: 40%; // Hacer la X un poco más pequeña dentro del círculo
-  
-  &:hover {
-    transform: rotate(90deg) scale(1.1);
-  }
-}
-
-// Animación de pulso para el texto de carga
-.animate-pulse {
-  animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-  0% { opacity: 0.5; }
-  50% { opacity: 1; }
-  100% { opacity: 0.5; }
+  background-size: 40%;
+  &:hover { transform: rotate(90deg) scale(1.1); }
 }

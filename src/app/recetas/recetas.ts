@@ -29,21 +29,25 @@ import { RecetaDetalle } from '../receta-detalle/receta-detalle';
 export class Recetas implements OnInit {
   private recetasService = inject(RecetasService);
 
+  // Filtros Reactivos
   private filtroNombre$ = new BehaviorSubject<string>('');
   private filtroEstrellas$ = new BehaviorSubject<number>(0);
 
+  // ViewModel (Datos combinados)
   vm$!: Observable<{ recetas: RecetaModel[], filtroActual: string }>;
 
-  // Estado para los Modales
+  // Estado de la Vista
   recetaSeleccionadaId: string | null = null;
-  mostrarFormulario = false; // NUEVO: Controla el modal del formulario
+  mostrarFormulario = false; 
 
   ngOnInit() {
+    // 1. Carga de datos
     const datosServidor$ = this.recetasService.changesOnRecetas$.pipe(
       startWith(undefined),
       switchMap(() => this.recetasService.getRecetas())
     );
 
+    // 2. Combinación con filtros
     this.vm$ = combineLatest([datosServidor$, this.filtroNombre$, this.filtroEstrellas$]).pipe(
       map(([recetas, nombre, estrellas]) => {
         const filtradas = recetas.filter(r => 
@@ -52,15 +56,19 @@ export class Recetas implements OnInit {
         return { recetas: filtradas, filtroActual: nombre };
       })
     );
+
+    // 3. Suscripción al estado global del formulario (para que funcione desde el Header)
+    this.recetasService.formOpen$.subscribe(isOpen => {
+      this.mostrarFormulario = isOpen;
+    });
   }
 
-  // --- Lógica del Modal Detalle ---
+  // --- Lógica Modales ---
   abrirModalDetalle(id: string) { this.recetaSeleccionadaId = id; }
   cerrarModalDetalle() { this.recetaSeleccionadaId = null; }
 
-  // --- NUEVA: Lógica del Modal Formulario ---
-  abrirFormulario() { this.mostrarFormulario = true; }
-  cerrarFormulario() { this.mostrarFormulario = false; }
+  abrirFormulario() { this.recetasService.abrirFormularioGlobal(); }
+  cerrarFormulario() { this.recetasService.cerrarFormularioGlobal(); }
 
   // --- Filtros ---
   actualizarFiltroNombre(texto: string) { this.filtroNombre$.next(texto.toLowerCase()); }
@@ -73,7 +81,7 @@ export class Recetas implements OnInit {
   agregarReceta(datosParciales: any) {
     const nuevaReceta = { ...datosParciales, puntuacion: 0, votos: 0 };
     this.recetasService.agregarReceta(nuevaReceta).subscribe(() => {
-      this.cerrarFormulario(); // Cerramos el modal al terminar con éxito
+      this.cerrarFormulario();
     });
   }
 

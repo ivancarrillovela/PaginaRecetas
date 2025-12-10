@@ -13,7 +13,7 @@
       ],
       "urlImagen": "https://th.bing.com/th/id/OIP.dB9RW6g_PNnGgPKOwv-sQQHaEK?w=295&h=180&c=7&r=0&o=7&cb=ucfimg2&dpr=1.5&pid=1.7&rm=3&ucfimg=1",
       "puntuacion": 4.8,
-      "votos": 145
+      "votos": 178
     },
     {
       "id": "2",
@@ -42,20 +42,6 @@
       "urlImagen": "https://th.bing.com/th/id/OIP.scs61Nba0tBLw_fIo372YgHaFj?w=269&h=202&c=7&r=0&o=7&cb=ucfimg2&dpr=1.5&pid=1.7&rm=3&ucfimg=1",
       "puntuacion": 4.2,
       "votos": 85
-    },
-    {
-      "id": "4",
-      "nombre": "Ensalada César",
-      "ingredientes": [
-        "Lechuga romana",
-        "Picatostes (Croutons)",
-        "Queso parmesano",
-        "Pechuga de pollo",
-        "Salsa César"
-      ],
-      "urlImagen": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Caesar_salad_%282%29.jpg/800px-Caesar_salad_%282%29.jpg",
-      "puntuacion": 3.5,
-      "votos": 45
     }
   ]
 }
