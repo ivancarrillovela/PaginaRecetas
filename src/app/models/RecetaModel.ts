@@ -1,11 +1,8 @@
-export class RecetaModel {
-  public nombre: string;
-  public ingredientes: string[];
-  public urlImagen: string;
-
-  constructor(nombre: string, ingredientes: string[], urlImagen: string) {
-    this.nombre = nombre;
-    this.ingredientes = ingredientes;
-    this.urlImagen = urlImagen;
-  }
+export interface RecetaModel {
+  id: string;
+  nombre: string;
+  ingredientes: string[];
+  urlImagen: string;
+  puntuacion: number; // Puntuaciónd e la receta
+  votos: number;      // Cantidad total de votos
 }
