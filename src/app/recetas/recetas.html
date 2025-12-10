@@ -1,17 +1,24 @@
 <div class="container py-5">
   <h1 class="display-4 text-center fw-bold mb-5">Mis Recetas</h1>
 
-  <div class="row mb-4">
-    <div class="col-md-8">
+  <div class="row mb-4 align-items-center g-3">
+    <div class="col-md-5">
       <app-filtro-recetas (filtrar)="actualizarFiltroNombre($event)"></app-filtro-recetas>
     </div>
+    
     <div class="col-md-4">
-      <select class="form-select form-select-lg" (change)="actualizarFiltroEstrellas($event)">
+      <select class="form-select form-select-lg shadow-sm border-0" (change)="actualizarFiltroEstrellas($event)">
         <option value="0">Todas las valoraciones</option>
         <option value="3">⭐ 3+ Estrellas</option>
         <option value="4">⭐ 4+ Estrellas</option>
         <option value="5">⭐ 5 Estrellas</option>
       </select>
+    </div>
+
+    <div class="col-md-3 text-end">
+      <button class="btn btn-primary btn-lg w-100 shadow-sm fw-semibold" (click)="abrirFormulario()">
+        <i class="bi bi-plus-circle-fill me-2"></i>Nueva Receta
+      </button>
     </div>
   </div>
 
@@ -28,35 +35,47 @@
             [receta]="receta" 
             (borrarReceta)="borrarReceta($event)"
             (votarReceta)="procesarVoto(receta.id, $event)"
-            (verDetalle)="abrirModalDetalle($event)"> </app-receta-card>
+            (verDetalle)="abrirModalDetalle($event)">
+          </app-receta-card>
         </div>
       } 
     </div>
 
   } @else {
     <div class="text-center py-5">
-      <div class="spinner-border text-primary"></div>
+      <div class="spinner-border text-primary" role="status"></div>
     </div>
   }
-
-  <div class="row justify-content-center mt-5">
-    <div class="col-lg-8">
-      <app-receta-form (agregarReceta)="agregarReceta($event)" />
-    </div>
-  </div>
 </div>
 
 @if (recetaSeleccionadaId) {
-  <div class="modal-backdrop fade show"></div>
+  <div class="modal-backdrop fade show" style="backdrop-filter: blur(5px); background-color: rgba(0,0,0,0.6);"></div>
+  <div class="modal fade show d-block" tabindex="-1" (click)="cerrarModalDetalle()">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" (click)="$event.stopPropagation()">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <app-receta-detalle [id]="recetaSeleccionadaId" (cerrar)="cerrarModalDetalle()"></app-receta-detalle>
+      </div>
+    </div>
+  </div>
+}
 
-  <div class="modal fade show d-block" tabindex="-1" role="dialog" (click)="cerrarModalDetalle()">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document" (click)="$event.stopPropagation()">
-      <div class="modal-content shadow-lg rounded-4 overflow-hidden">
+@if (mostrarFormulario) {
+  <div class="modal-backdrop fade show" style="backdrop-filter: blur(5px); background-color: rgba(0,0,0,0.6);"></div>
+  
+  <div class="modal fade show d-block" tabindex="-1" (click)="cerrarFormulario()">
+    <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
+      <div class="modal-content border-0 shadow-lg rounded-4">
         
-        <app-receta-detalle 
-            [id]="recetaSeleccionadaId" 
-            (cerrar)="cerrarModalDetalle()">
-        </app-receta-detalle>
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title fw-bold text-primary">
+            <i class="bi bi-pencil-square me-2"></i>Crear Nueva Receta
+          </h5>
+          <button type="button" class="btn-close" (click)="cerrarFormulario()"></button>
+        </div>
+
+        <div class="modal-body">
+          <app-receta-form (agregarReceta)="agregarReceta($event)"></app-receta-form>
+        </div>
 
       </div>
     </div>

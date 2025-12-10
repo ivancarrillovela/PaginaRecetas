@@ -1,8 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule, AsyncPipe } from '@angular/common';
 import { BehaviorSubject, combineLatest, map, Observable, startWith, switchMap } from 'rxjs';
+
 import { RecetaModel } from '../models/RecetaModel';
 import { RecetasService } from '../services/recetas.service';
+
 import { RecetaCard } from '../receta-card/receta-card';
 import { RecetaForm } from '../receta-form/receta-form';
 import { Filtro } from '../filtro/filtro';
@@ -12,34 +14,39 @@ import { RecetaDetalle } from '../receta-detalle/receta-detalle';
 @Component({
   selector: 'app-recetas',
   standalone: true,
-  imports: [CommonModule, AsyncPipe, RecetaCard, RecetaForm, Filtro, EstadoVacio, RecetaDetalle],
+  imports: [
+    CommonModule, 
+    AsyncPipe, 
+    RecetaCard, 
+    RecetaForm, 
+    Filtro, 
+    EstadoVacio, 
+    RecetaDetalle
+  ],
   templateUrl: './recetas.html',
   styleUrl: './recetas.scss'
 })
 export class Recetas implements OnInit {
   private recetasService = inject(RecetasService);
 
-  // Subjects para filtros (Reactive Programming)
   private filtroNombre$ = new BehaviorSubject<string>('');
   private filtroEstrellas$ = new BehaviorSubject<number>(0);
 
-  // Observable combinado para la vista (Datos + Estado de filtros)
   vm$!: Observable<{ recetas: RecetaModel[], filtroActual: string }>;
 
-  // Estado para el Modal (Pop-up)
+  // Estado para los Modales
   recetaSeleccionadaId: string | null = null;
+  mostrarFormulario = false; // NUEVO: Controla el modal del formulario
 
   ngOnInit() {
-    // Flujo de datos del servidor (se recarga automáticamente si changesOnRecetas$ emite)
     const datosServidor$ = this.recetasService.changesOnRecetas$.pipe(
       startWith(undefined),
       switchMap(() => this.recetasService.getRecetas())
     );
 
-    // Combinamos los datos con los filtros locales
     this.vm$ = combineLatest([datosServidor$, this.filtroNombre$, this.filtroEstrellas$]).pipe(
       map(([recetas, nombre, estrellas]) => {
-        const filtradas = recetas.filter(r =>
+        const filtradas = recetas.filter(r => 
           r.nombre.toLowerCase().includes(nombre) && r.puntuacion >= estrellas
         );
         return { recetas: filtradas, filtroActual: nombre };
@@ -47,34 +54,30 @@ export class Recetas implements OnInit {
     );
   }
 
-  // Lógica del Modal
-  abrirModalDetalle(id: string) {
-    this.recetaSeleccionadaId = id;
-  }
+  // --- Lógica del Modal Detalle ---
+  abrirModalDetalle(id: string) { this.recetaSeleccionadaId = id; }
+  cerrarModalDetalle() { this.recetaSeleccionadaId = null; }
 
-  cerrarModalDetalle() {
-    this.recetaSeleccionadaId = null;
-  }
+  // --- NUEVA: Lógica del Modal Formulario ---
+  abrirFormulario() { this.mostrarFormulario = true; }
+  cerrarFormulario() { this.mostrarFormulario = false; }
 
-  // Eventos de la UI (Filtros)
-  actualizarFiltroNombre(texto: string) {
-    this.filtroNombre$.next(texto.toLowerCase());
-  }
-
+  // --- Filtros ---
+  actualizarFiltroNombre(texto: string) { this.filtroNombre$.next(texto.toLowerCase()); }
   actualizarFiltroEstrellas(event: Event) {
     const valor = Number((event.target as HTMLSelectElement).value);
     this.filtroEstrellas$.next(valor);
   }
 
-  // Acciones de Datos (CRUD)
+  // --- Acciones ---
   agregarReceta(datosParciales: any) {
     const nuevaReceta = { ...datosParciales, puntuacion: 0, votos: 0 };
-    this.recetasService.agregarReceta(nuevaReceta).subscribe();
+    this.recetasService.agregarReceta(nuevaReceta).subscribe(() => {
+      this.cerrarFormulario(); // Cerramos el modal al terminar con éxito
+    });
   }
 
-  borrarReceta(id: string) {
-    this.recetasService.borrarReceta(id).subscribe();
-  }
+  borrarReceta(id: string) { this.recetasService.borrarReceta(id).subscribe(); }
 
   procesarVoto(id: string, puntuacion: number) {
     this.recetasService.getRecetaById(id).subscribe(receta => {
