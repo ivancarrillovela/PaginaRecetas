@@ -14,11 +14,14 @@ export class RecetaForm {
   agregarReceta = output<Omit<RecetaModel, 'id' | 'puntuacion' | 'votos'>>();
   
   formularioReceta = new FormGroup({
-    nombre: new FormControl('', [Validators.required]),
+    // Aplicación de Múltiples Validadores en array
+    nombre: new FormControl('', [Validators.required, Validators.minLength(3)]), 
     urlImagen: new FormControl('', [Validators.required]),
-    ingredientes: new FormControl('', [Validators.required])
+    // Validación extra para asegurar contenido mínimo
+    ingredientes: new FormControl('', [Validators.required, Validators.minLength(10)]) 
   });
 
+  // Getters para acceder a los controles en la vista
   get nombre() { return this.formularioReceta.get('nombre'); }
   get urlImagen() { return this.formularioReceta.get('urlImagen'); }
   get ingredientes() { return this.formularioReceta.get('ingredientes'); }

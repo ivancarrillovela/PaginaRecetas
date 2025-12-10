@@ -1,10 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, AsyncPipe } from '@angular/common';
-import { BehaviorSubject, combineLatest, map, Observable, startWith, switchMap } from 'rxjs';
-
+import { BehaviorSubject, combineLatest, map, Observable, startWith, switchMap, Subscription } from 'rxjs';
 import { RecetaModel } from '../models/RecetaModel';
 import { RecetasService } from '../services/recetas.service';
-
 import { RecetaCard } from '../receta-card/receta-card';
 import { RecetaForm } from '../receta-form/receta-form';
 import { Filtro } from '../filtro/filtro';
@@ -26,7 +24,7 @@ import { RecetaDetalle } from '../receta-detalle/receta-detalle';
   templateUrl: './recetas.html',
   styleUrl: './recetas.scss'
 })
-export class Recetas implements OnInit {
+export class Recetas implements OnInit, OnDestroy {
   private recetasService = inject(RecetasService);
 
   // Filtros Reactivos
@@ -40,14 +38,17 @@ export class Recetas implements OnInit {
   recetaSeleccionadaId: string | null = null;
   mostrarFormulario = false; 
 
+  // Variable para gestionar la suscripción (Teoría pág. 65)
+  private formSubscription?: Subscription;
+
   ngOnInit() {
-    // 1. Carga de datos
+    // Carga de datos
     const datosServidor$ = this.recetasService.changesOnRecetas$.pipe(
       startWith(undefined),
       switchMap(() => this.recetasService.getRecetas())
     );
 
-    // 2. Combinación con filtros
+    // Combinación con filtros
     this.vm$ = combineLatest([datosServidor$, this.filtroNombre$, this.filtroEstrellas$]).pipe(
       map(([recetas, nombre, estrellas]) => {
         const filtradas = recetas.filter(r => 
@@ -57,10 +58,18 @@ export class Recetas implements OnInit {
       })
     );
 
-    // 3. Suscripción al estado global del formulario (para que funcione desde el Header)
-    this.recetasService.formOpen$.subscribe(isOpen => {
+    // Suscripción al estado global del formulario
+    // Guardamos la suscripción en la variable
+    this.formSubscription = this.recetasService.formOpen$.subscribe(isOpen => {
       this.mostrarFormulario = isOpen;
     });
+  }
+
+  // Limpiamos la suscripción al destruir el componente
+  ngOnDestroy() {
+    if (this.formSubscription) {
+      this.formSubscription.unsubscribe();
+    }
   }
 
   // --- Lógica Modales ---
