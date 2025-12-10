@@ -1,6 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Recetas } from './recetas/recetas';
 import { Header } from "./header/header";
 import { Footer } from './footer/footer';
 
@@ -11,5 +10,4 @@ import { Footer } from './footer/footer';
   styleUrl: './app.scss'
 })
 export class App {
-  protected readonly title = signal('PaginaRecetas');
 }

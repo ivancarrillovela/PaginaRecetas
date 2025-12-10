@@ -83,7 +83,6 @@ export class Recetas implements OnInit, OnDestroy {
   abrirModalDetalle(id: string) { this.recetaSeleccionadaId = id; }
   cerrarModalDetalle() { this.recetaSeleccionadaId = null; }
 
-  abrirFormulario() { this.recetasService.abrirFormularioGlobal(); }
   cerrarFormulario() { this.recetasService.cerrarFormularioGlobal(); }
 
   // --- Filtros ---
