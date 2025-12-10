@@ -1,0 +1,12 @@
+<div class="d-flex gap-1 align-items-center">
+  @for (star of [1,2,3,4,5]; track star) {
+    <i class="bi" 
+       [class.bi-star-fill]="star <= rating()" 
+       [class.bi-star]="star > rating()"
+       [class.text-warning]="true"
+       [class.cursor-pointer]="!readonly()"
+       (click)="onRate(star)">
+    </i>
+  }
+  <span class="text-muted small ms-1">({{ rating() }})</span>
+</div>
