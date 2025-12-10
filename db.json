@@ -13,7 +13,7 @@
       ],
       "urlImagen": "https://th.bing.com/th/id/OIP.dB9RW6g_PNnGgPKOwv-sQQHaEK?w=295&h=180&c=7&r=0&o=7&cb=ucfimg2&dpr=1.5&pid=1.7&rm=3&ucfimg=1",
       "puntuacion": 4.8,
-      "votos": 178
+      "votos": 55
     },
     {
       "id": "2",
@@ -27,7 +27,7 @@
       ],
       "urlImagen": "https://th.bing.com/th/id/OIP.-ax_sGj_2Yy99g_weC9r-wHaE8?w=245&h=180&c=7&r=0&o=7&cb=ucfimg2&dpr=1.5&pid=1.7&rm=3&ucfimg=1",
       "puntuacion": 5,
-      "votos": 451
+      "votos": 2
     },
     {
       "id": "3",
@@ -40,8 +40,81 @@
         "Azafrán y Pimentón"
       ],
       "urlImagen": "https://th.bing.com/th/id/OIP.scs61Nba0tBLw_fIo372YgHaFj?w=269&h=202&c=7&r=0&o=7&cb=ucfimg2&dpr=1.5&pid=1.7&rm=3&ucfimg=1",
-      "puntuacion": 4.2,
-      "votos": 87
+      "puntuacion": 4,
+      "votos": 10
+    },
+    {
+      "id": "4",
+      "nombre": "Croquetas de Jamón",
+      "ingredientes": [
+        "200g Jamón serrano",
+        "1l Leche entera",
+        "100g Mantequilla",
+        "100g Harina",
+        "Huevo y Pan rallado",
+        "Nuez moscada"
+      ],
+      "urlImagen": "https://th.bing.com/th/id/OIP.MYfH_De5ncpxy3Nghv7ZawHaEK?w=297&h=180&c=7&r=0&o=7&cb=ucfimg2&dpr=1.5&pid=1.7&rm=3&ucfimg=1",
+      "puntuacion": 4.9,
+      "votos": 82
+    },
+    {
+      "id": "5",
+      "nombre": "Pulpo a la Gallega",
+      "ingredientes": [
+        "1 Pulpo cocido",
+        "4 Patatas (cachelos)",
+        "Pimentón dulce y picante",
+        "Aceite de oliva virgen extra",
+        "Sal en escamas"
+      ],
+      "urlImagen": "https://th.bing.com/th/id/OIP.Nwga4r3uleAfSKVmJ0youQHaE8?w=303&h=202&c=7&r=0&o=7&cb=ucfimg2&dpr=1.5&pid=1.7&rm=3&ucfimg=1",
+      "puntuacion": 4.7,
+      "votos": 40
+    },
+    {
+      "id": "6",
+      "nombre": "Fabada Asturiana",
+      "ingredientes": [
+        "500g Fabes de la Granja",
+        "2 Chorizos asturianos",
+        "2 Morcillas asturianas",
+        "200g Lacón",
+        "Azafrán"
+      ],
+      "urlImagen": "https://th.bing.com/th/id/OIP.T3fvaZLVg6VJxsxMURzOXwHaEK?w=310&h=180&c=7&r=0&o=7&cb=ucfimg2&dpr=1.5&pid=1.7&rm=3&ucfimg=1",
+      "puntuacion": 4.5,
+      "votos": 18
+    },
+    {
+      "id": "7",
+      "nombre": "Gambas al Ajillo",
+      "ingredientes": [
+        "400g Gambas peladas",
+        "5 Dientes de ajo",
+        "1 Guindilla seca",
+        "Perejil fresco",
+        "Aceite de oliva virgen extra",
+        "Sal"
+      ],
+      "urlImagen": "https://th.bing.com/th/id/OIP.VeGr7jrrr5vK8N1Ab4_LGQHaE8?w=278&h=185&c=7&r=0&o=7&cb=ucfimg2&dpr=1.5&pid=1.7&rm=3&ucfimg=1",
+      "puntuacion": 4.6,
+      "votos": 25
+    },
+    {
+      "id": "8",
+      "nombre": "Salmorejo Cordobés",
+      "ingredientes": [
+        "1kg Tomates rojos maduros",
+        "200g Pan de telera (o del día anterior)",
+        "100ml Aceite de oliva virgen extra",
+        "1 Diente de ajo",
+        "Sal",
+        "Virutas de jamón y huevo duro (guarnición)"
+      ],
+      "urlImagen": "https://th.bing.com/th/id/OIP.4XT6La8M2Nf_WMkcg8PbpwHaE7?w=283&h=188&c=7&r=0&o=7&cb=ucfimg2&dpr=1.5&pid=1.7&rm=3&ucfimg=1",
+      "puntuacion": 4.7,
+      "votos": 33
     }
   ]
 }

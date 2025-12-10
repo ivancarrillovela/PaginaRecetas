@@ -8,3 +8,24 @@
   --bs-primary-bg-subtle: rgba(255, 0, 0, 0.1);
   --bs-primary-border-subtle: rgba(255, 0, 0, 0.2);
 }
+
+/* --- CONFIGURACIÓN STICKY FOOTER --- */
+
+// Aseguramos que html y body ocupen toda la altura
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+// Convertimos el componente raíz en un contenedor Flex vertical
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; // Ocupa al menos el 100% de la altura de la ventana (Viewport Height)
+}
+
+// Hacemos que la etiqueta main crezca (flex: 1) para asegurar que el footer quede en la parte inferior
+main {
+  flex: 1;
+  width: 100%; // Asegura que ocupe todo el ancho
+}
