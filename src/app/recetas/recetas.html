@@ -8,11 +8,11 @@
     <div class="col-xl-10">
       <div class="p-3 bg-light rounded-pill shadow-sm border">
         <div class="row g-2 align-items-center">
-          
+
           <div class="col-md-8">
             <app-filtro-recetas (filtrar)="actualizarFiltroNombre($event)"></app-filtro-recetas>
           </div>
-          
+
           <div class="col-md-auto d-none d-md-block border-end align-self-center" style="height: 30px;"></div>
 
           <div class="col-md">
@@ -20,13 +20,14 @@
               <span class="input-group-text bg-transparent border-0 ps-3 text-warning">
                 <i class="bi bi-star-fill"></i>
               </span>
-              <select class="form-select border-0 bg-transparent shadow-none fw-semibold text-secondary" 
-                      style="cursor: pointer;"
-                      (change)="actualizarFiltroEstrellas($event)">
-                <option value="0" class="text-dark">Todas las valoraciones</option>
-                <option value="3" class="text-dark">3+ Estrellas (Medio)</option>
-                <option value="4" class="text-dark">4+ Estrellas (Bueno)</option>
-                <option value="5" class="text-dark">5 Estrellas (Excelente)</option>
+              <select class="form-select border-0 bg-transparent shadow-none fw-semibold text-secondary"
+                style="cursor: pointer;" (change)="actualizarFiltroEstrellas($event)">
+                <option value="0">Todas las valoraciones</option>
+                <option value="1">⭐ 1 Estrella</option>
+                <option value="2">⭐ 2 Estrellas</option>
+                <option value="3">⭐ 3 Estrellas</option>
+                <option value="4">⭐ 4 Estrellas</option>
+                <option value="5">⭐ 5 Estrellas</option>
               </select>
             </div>
           </div>
@@ -37,56 +38,53 @@
   </div>
 
   @if (vm$ | async; as vm) {
-    @if (vm.recetas.length === 0) {
-      <app-estado-vacio [filtroActual]="vm.filtroActual"></app-estado-vacio>
-    }
+  @if (vm.recetas.length === 0) {
+  <app-estado-vacio [filtroActual]="vm.filtroActual"></app-estado-vacio>
+  }
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4 mb-5">
-      @for (receta of vm.recetas; track receta.id) {
-        <div class="col">
-          <app-receta-card 
-            [receta]="receta" 
-            (borrarReceta)="borrarReceta($event)"
-            (votarReceta)="procesarVoto(receta.id, $event)"
-            (verDetalle)="abrirModalDetalle($event)">
-          </app-receta-card>
-        </div>
-      } 
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4 mb-5">
+    @for (receta of vm.recetas; track receta.id) {
+    <div class="col">
+      <app-receta-card [receta]="receta" (borrarReceta)="borrarReceta($event)"
+        (votarReceta)="procesarVoto(receta.id, $event)" (verDetalle)="abrirModalDetalle($event)">
+      </app-receta-card>
     </div>
+    }
+  </div>
   } @else {
-    <div class="text-center py-5">
-      <div class="spinner-border text-primary" role="status"></div>
-    </div>
+  <div class="text-center py-5">
+    <div class="spinner-border text-primary" role="status"></div>
+  </div>
   }
 </div>
 
 @if (recetaSeleccionadaId) {
-  <div class="modal-backdrop fade show" style="backdrop-filter: blur(5px); background-color: rgba(0,0,0,0.6);"></div>
-  <div class="modal fade show d-block" tabindex="-1" (click)="cerrarModalDetalle()">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" (click)="$event.stopPropagation()">
-      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
-        <app-receta-detalle [id]="recetaSeleccionadaId" (cerrar)="cerrarModalDetalle()"></app-receta-detalle>
-      </div>
+<div class="modal-backdrop fade show" style="backdrop-filter: blur(5px); background-color: rgba(0,0,0,0.6);"></div>
+<div class="modal fade show d-block" tabindex="-1" (click)="cerrarModalDetalle()">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" (click)="$event.stopPropagation()">
+    <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+      <app-receta-detalle [id]="recetaSeleccionadaId" (cerrar)="cerrarModalDetalle()"></app-receta-detalle>
     </div>
   </div>
+</div>
 }
 
 @if (mostrarFormulario) {
-  <div class="modal-backdrop fade show" style="backdrop-filter: blur(5px); background-color: rgba(0,0,0,0.6);"></div>
-  
-  <div class="modal fade show d-block" tabindex="-1" (click)="cerrarFormulario()">
-    <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
-      <div class="modal-content border-0 shadow-lg rounded-4">
-        <div class="modal-header border-0 pb-0">
-          <h5 class="modal-title fw-bold text-primary">
-            <i class="bi bi-pencil-square me-2"></i>Crear Nueva Receta
-          </h5>
-          <button type="button" class="btn-close" (click)="cerrarFormulario()"></button>
-        </div>
-        <div class="modal-body">
-          <app-receta-form (agregarReceta)="agregarReceta($event)"></app-receta-form>
-        </div>
+<div class="modal-backdrop fade show" style="backdrop-filter: blur(5px); background-color: rgba(0,0,0,0.6);"></div>
+
+<div class="modal fade show d-block" tabindex="-1" (click)="cerrarFormulario()">
+  <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
+    <div class="modal-content border-0 shadow-lg rounded-4">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fw-bold text-primary">
+          <i class="bi bi-pencil-square me-2"></i>Crear Nueva Receta
+        </h5>
+        <button type="button" class="btn-close" (click)="cerrarFormulario()"></button>
+      </div>
+      <div class="modal-body">
+        <app-receta-form (agregarReceta)="agregarReceta($event)"></app-receta-form>
       </div>
     </div>
   </div>
+</div>
 }
