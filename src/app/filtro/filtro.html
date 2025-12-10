@@ -1,22 +1,20 @@
+<div class="input-group input-group-lg">
+    <span class="input-group-text bg-white border-0 ps-4 text-primary rounded-start-pill">
+        <i class="bi bi-search"></i>
+    </span>
+    
+    <input 
+        type="text" 
+        class="form-control border-0 bg-white" 
+        placeholder="¿Qué te apetece cocinar hoy?"
+        [value]="valorInput" 
+        (input)="onFiltroCambiado($event)">
 
-    <div class="card-body p-4">
-        <div class="input-group input-group-lg">
-            <span class="input-group-text bg-white border-end-0 text-primary">
-                <i class="bi bi-search"></i>
-            </span>
-
-            <input 
-                type="text" 
-                class="form-control border-start-0" 
-                placeholder="Buscar receta por nombre..."
-                aria-label="Filtro de recetas"
-                [value]="valorInput" 
-                (input)="onFiltroCambiado($event)">
-
-            @if (valorInput) {
-            <button class="btn btn-outline-secondary border-start-0" type="button" (click)="limpiarFiltro()">
-                <i class="bi bi-x-lg"></i>
-            </button>
-            }
-        </div>
-    </div>
+    @if (valorInput) {
+    <button class="btn bg-white border-0 text-muted pe-4 rounded-end-pill" type="button" (click)="limpiarFiltro()">
+        <i class="bi bi-x-lg"></i>
+    </button>
+    } @else {
+        <span class="input-group-text bg-white border-0 rounded-end-pill pe-3"></span>
+    }
+</div>
