@@ -1,0 +1,38 @@
+<div class="container py-5">
+  <a routerLink="/" class="btn btn-outline-secondary mb-4">
+    <i class="bi bi-arrow-left"></i> Volver al listado
+  </a>
+  
+  @if (receta(); as r) {
+    <div class="row g-4">
+      <div class="col-md-6">
+        <img [src]="r.urlImagen" class="img-fluid rounded shadow w-100" [alt]="r.nombre">
+      </div>
+      
+      <div class="col-md-6">
+        <h1 class="display-4 fw-bold">{{ r.nombre }}</h1>
+        
+        <div class="card bg-light border-0 my-4">
+          <div class="card-body d-flex align-items-center gap-3">
+            <h2 class="mb-0 text-warning display-6 fw-bold">{{ r.puntuacion }}</h2>
+            <div>
+              <app-star-rating [rating]="r.puntuacion" [readonly]="true"></app-star-rating>
+              <span class="text-muted small">Basado en {{ r.votos }} votos</span>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="h5 text-primary mb-3"><i class="bi bi-basket"></i> Ingredientes:</h3>
+        <ul class="list-group list-group-flush">
+          @for (ing of r.ingredientes; track $index) {
+            <li class="list-group-item bg-transparent">
+              <i class="bi bi-check2-circle text-success me-2"></i>{{ ing }}
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  } @else {
+    <p class="text-center text-muted">Cargando receta...</p>
+  }
+</div>
