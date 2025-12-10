@@ -2,16 +2,17 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule, AsyncPipe } from '@angular/common';
 import { BehaviorSubject, combineLatest, map, Observable, startWith, switchMap } from 'rxjs';
 import { RecetaModel } from '../models/RecetaModel';
+import { RecetasService } from '../services/recetas.service';
 import { RecetaCard } from '../receta-card/receta-card';
 import { RecetaForm } from '../receta-form/receta-form';
 import { Filtro } from '../filtro/filtro';
 import { EstadoVacio } from '../estado-vacio/estado-vacio';
-import { RecetasService } from '../services/recetas.service';
+import { RecetaDetalle } from '../receta-detalle/receta-detalle';
 
 @Component({
   selector: 'app-recetas',
   standalone: true,
-  imports: [CommonModule, AsyncPipe, RecetaCard, RecetaForm, Filtro, EstadoVacio],
+  imports: [CommonModule, AsyncPipe, RecetaCard, RecetaForm, Filtro, EstadoVacio, RecetaDetalle],
   templateUrl: './recetas.html',
   styleUrl: './recetas.scss'
 })
@@ -22,20 +23,23 @@ export class Recetas implements OnInit {
   private filtroNombre$ = new BehaviorSubject<string>('');
   private filtroEstrellas$ = new BehaviorSubject<number>(0);
 
-  // Observable combinado para la vista
+  // Observable combinado para la vista (Datos + Estado de filtros)
   vm$!: Observable<{ recetas: RecetaModel[], filtroActual: string }>;
 
+  // Estado para el Modal (Pop-up)
+  recetaSeleccionadaId: string | null = null;
+
   ngOnInit() {
-    // 1. Stream de datos del servidor (se recarga cuando changesOnRecetas$ emite)
+    // Flujo de datos del servidor (se recarga automáticamente si changesOnRecetas$ emite)
     const datosServidor$ = this.recetasService.changesOnRecetas$.pipe(
       startWith(undefined),
       switchMap(() => this.recetasService.getRecetas())
     );
 
-    // 2. Combinamos datos + filtros
+    // Combinamos los datos con los filtros locales
     this.vm$ = combineLatest([datosServidor$, this.filtroNombre$, this.filtroEstrellas$]).pipe(
       map(([recetas, nombre, estrellas]) => {
-        const filtradas = recetas.filter(r => 
+        const filtradas = recetas.filter(r =>
           r.nombre.toLowerCase().includes(nombre) && r.puntuacion >= estrellas
         );
         return { recetas: filtradas, filtroActual: nombre };
@@ -43,7 +47,16 @@ export class Recetas implements OnInit {
     );
   }
 
-  // Eventos UI
+  // Lógica del Modal
+  abrirModalDetalle(id: string) {
+    this.recetaSeleccionadaId = id;
+  }
+
+  cerrarModalDetalle() {
+    this.recetaSeleccionadaId = null;
+  }
+
+  // Eventos de la UI (Filtros)
   actualizarFiltroNombre(texto: string) {
     this.filtroNombre$.next(texto.toLowerCase());
   }
@@ -53,9 +66,8 @@ export class Recetas implements OnInit {
     this.filtroEstrellas$.next(valor);
   }
 
-  // Acciones
+  // Acciones de Datos (CRUD)
   agregarReceta(datosParciales: any) {
-    // Completamos el objeto con valores por defecto
     const nuevaReceta = { ...datosParciales, puntuacion: 0, votos: 0 };
     this.recetasService.agregarReceta(nuevaReceta).subscribe();
   }

@@ -13,9 +13,10 @@
     </div>
 
     <div class="mt-auto d-flex justify-content-between align-items-center">
-      <a [routerLink]="['/receta', receta().id]" class="btn btn-primary btn-sm">
+      
+      <button (click)="onVerDetalle()" class="btn btn-primary btn-sm">
         <i class="bi bi-eye"></i> Ver Detalle
-      </a>
+      </button>
       
       <button (click)="alBorrar()" class="btn btn-outline-danger btn-sm">
         <i class="bi bi-trash"></i>

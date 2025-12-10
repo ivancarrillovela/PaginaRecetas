@@ -27,8 +27,8 @@
           <app-receta-card 
             [receta]="receta" 
             (borrarReceta)="borrarReceta($event)"
-            (votarReceta)="procesarVoto(receta.id, $event)">
-          </app-receta-card>
+            (votarReceta)="procesarVoto(receta.id, $event)"
+            (verDetalle)="abrirModalDetalle($event)"> </app-receta-card>
         </div>
       } 
     </div>
@@ -45,3 +45,20 @@
     </div>
   </div>
 </div>
+
+@if (recetaSeleccionadaId) {
+  <div class="modal-backdrop fade show"></div>
+
+  <div class="modal fade show d-block" tabindex="-1" role="dialog" (click)="cerrarModalDetalle()">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document" (click)="$event.stopPropagation()">
+      <div class="modal-content shadow-lg rounded-4 overflow-hidden">
+        
+        <app-receta-detalle 
+            [id]="recetaSeleccionadaId" 
+            (cerrar)="cerrarModalDetalle()">
+        </app-receta-detalle>
+
+      </div>
+    </div>
+  </div>
+}
