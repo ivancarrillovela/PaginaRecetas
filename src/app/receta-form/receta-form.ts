@@ -1,16 +1,17 @@
-import { Component, output} from '@angular/core';
+import { Component, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RecetaModel } from '../models/RecetaModel';
 
 @Component({
   selector: 'app-receta-form',
+  standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './receta-form.html',
   styleUrl: './receta-form.scss'
 })
 export class RecetaForm {
-
-  agregarReceta = output<RecetaModel>();
+  // Emitimos un objeto sin ID ni votos porque eso lo gestiona el servicio
+  agregarReceta = output<Omit<RecetaModel, 'id' | 'puntuacion' | 'votos'>>();
   
   formularioReceta = new FormGroup({
     nombre: new FormControl('', [Validators.required]),
@@ -18,38 +19,24 @@ export class RecetaForm {
     ingredientes: new FormControl('', [Validators.required])
   });
 
-  get nombre() {
-    return this.formularioReceta.get('nombre');
-  }
-
-  get urlImagen() {
-    return this.formularioReceta.get('urlImagen');
-  }
-
-  get ingredientes() {
-    return this.formularioReceta.get('ingredientes');
-  }
+  get nombre() { return this.formularioReceta.get('nombre'); }
+  get urlImagen() { return this.formularioReceta.get('urlImagen'); }
+  get ingredientes() { return this.formularioReceta.get('ingredientes'); }
 
   enviarFormulario() {
-    if (this.formularioReceta.invalid) {
-      alert('Formulario invalido');
-      return;
-    }
+    if (this.formularioReceta.invalid) return;
 
     const arrayIngredientes = this.formularioReceta.value.ingredientes!
       .split('\n')
       .filter((line: string) => line.trim().length > 0);
 
-    const valorFormulario = this.formularioReceta.value;
-
-    const nuevaReceta: RecetaModel = {
-      nombre: valorFormulario.nombre!,
-      urlImagen: valorFormulario.urlImagen!,
+    const nuevaReceta = {
+      nombre: this.formularioReceta.value.nombre!,
+      urlImagen: this.formularioReceta.value.urlImagen!,
       ingredientes: arrayIngredientes,
     };
     
     this.agregarReceta.emit(nuevaReceta);
-
     this.formularioReceta.reset();
   }
 }

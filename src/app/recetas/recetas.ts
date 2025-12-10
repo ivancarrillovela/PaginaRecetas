@@ -1,6 +1,6 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { CommonModule, AsyncPipe } from '@angular/common'; // Importar AsyncPipe
-import { Observable, startWith, switchMap, map } from 'rxjs';
+import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule, AsyncPipe } from '@angular/common';
+import { BehaviorSubject, combineLatest, map, Observable, startWith, switchMap } from 'rxjs';
 import { RecetaModel } from '../models/RecetaModel';
 import { RecetaCard } from '../receta-card/receta-card';
 import { RecetaForm } from '../receta-form/receta-form';
@@ -18,43 +18,46 @@ import { RecetasService } from '../services/recetas.service';
 export class Recetas implements OnInit {
   private recetasService = inject(RecetasService);
 
-  filtroNombre = signal('');
-  filtroMinEstrellas = signal(0); // Nuevo filtro
+  // Subjects para filtros (Reactive Programming)
+  private filtroNombre$ = new BehaviorSubject<string>('');
+  private filtroEstrellas$ = new BehaviorSubject<number>(0);
 
-  // Observable que se usará en el HTML
-  recetasAsync$!: Observable<RecetaModel[]>;
+  // Observable combinado para la vista
+  vm$!: Observable<{ recetas: RecetaModel[], filtroActual: string }>;
 
   ngOnInit() {
-    // Pipeline Reactivo: Se actualiza cada vez que el servicio notifica cambios
-    this.recetasAsync$ = this.recetasService.changesOnRecetas$.pipe(
-      startWith(undefined), // Carga inicial
-      switchMap(() => this.recetasService.getRecetas()),
-      map(recetas => this.aplicarFiltros(recetas)) // Filtrado local
+    // 1. Stream de datos del servidor (se recarga cuando changesOnRecetas$ emite)
+    const datosServidor$ = this.recetasService.changesOnRecetas$.pipe(
+      startWith(undefined),
+      switchMap(() => this.recetasService.getRecetas())
+    );
+
+    // 2. Combinamos datos + filtros
+    this.vm$ = combineLatest([datosServidor$, this.filtroNombre$, this.filtroEstrellas$]).pipe(
+      map(([recetas, nombre, estrellas]) => {
+        const filtradas = recetas.filter(r => 
+          r.nombre.toLowerCase().includes(nombre) && r.puntuacion >= estrellas
+        );
+        return { recetas: filtradas, filtroActual: nombre };
+      })
     );
   }
 
-  private aplicarFiltros(recetas: RecetaModel[]): RecetaModel[] {
-    return recetas.filter(r => 
-      r.nombre.toLowerCase().includes(this.filtroNombre()) &&
-      r.puntuacion >= this.filtroMinEstrellas()
-    );
-  }
-
+  // Eventos UI
   actualizarFiltroNombre(texto: string) {
-    this.filtroNombre.set(texto.toLowerCase());
-    this.recetasService['notifyUpdate'](); // Forzar refresco
+    this.filtroNombre$.next(texto.toLowerCase());
   }
 
   actualizarFiltroEstrellas(event: Event) {
     const valor = Number((event.target as HTMLSelectElement).value);
-    this.filtroMinEstrellas.set(valor);
-    this.recetasService['notifyUpdate'](); // Forzar refresco
+    this.filtroEstrellas$.next(valor);
   }
 
-  agregarReceta(datos: RecetaModel) {
-    const { id, ...resto } = datos; // Eliminamos ID ficticio si viene del form
-    const nueva = { ...resto, puntuacion: 0, votos: 0 };
-    this.recetasService.agregarReceta(nueva).subscribe();
+  // Acciones
+  agregarReceta(datosParciales: any) {
+    // Completamos el objeto con valores por defecto
+    const nuevaReceta = { ...datosParciales, puntuacion: 0, votos: 0 };
+    this.recetasService.agregarReceta(nuevaReceta).subscribe();
   }
 
   borrarReceta(id: string) {

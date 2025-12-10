@@ -1,7 +1,5 @@
 <div class="container py-5">
-  <div class="text-center mb-5">
-    <h1 class="display-4 fw-bold">Mis Recetas</h1>
-  </div>
+  <h1 class="display-4 text-center fw-bold mb-5">Mis Recetas</h1>
 
   <div class="row mb-4">
     <div class="col-md-8">
@@ -17,14 +15,14 @@
     </div>
   </div>
 
-  @if (recetasAsync$ | async; as recetas) {
+  @if (vm$ | async; as vm) {
     
-    @if (recetas.length === 0) {
-      <app-estado-vacio [filtroActual]="filtroNombre()"></app-estado-vacio>
+    @if (vm.recetas.length === 0) {
+      <app-estado-vacio [filtroActual]="vm.filtroActual"></app-estado-vacio>
     }
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4 mb-5">
-      @for (receta of recetas; track receta.id) {
+      @for (receta of vm.recetas; track receta.id) {
         <div class="col">
           <app-receta-card 
             [receta]="receta" 
@@ -37,7 +35,7 @@
 
   } @else {
     <div class="text-center py-5">
-      <div class="spinner-border text-primary" role="status"></div>
+      <div class="spinner-border text-primary"></div>
     </div>
   }
 
