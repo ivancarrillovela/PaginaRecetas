@@ -19,8 +19,7 @@
 
       <div class="d-flex align-items-center bg-light px-3 py-2 rounded-pill border">
         <app-star-rating [rating]="r.puntuacion" [readonly]="true"></app-star-rating>
-        <span class="ms-2 fw-bold">{{ r.puntuacion | number:'1.1-1' }}</span>
-        <span class="ms-2 text-muted small fw-semibold">({{ r.votos }} votos)</span>
+        <span class="ms-2 fw-bold">{{ r.votos }}</span>
       </div>
     </div>
 
