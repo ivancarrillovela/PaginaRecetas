@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { RouterLink } from '@angular/router'; 
+import { RouterLink } from '@angular/router';
 import { RecetaModel } from '../models/RecetaModel';
 import { StarRatingComponent } from '../star-rating/star-rating';
 
@@ -13,7 +13,7 @@ import { StarRatingComponent } from '../star-rating/star-rating';
 export class RecetaCard {
   receta = input.required<RecetaModel>();
   borrarReceta = output<string>();
-  votarReceta = output<number>(); // Nuevo Output para el voto
+  votarReceta = output<number>();
 
   alBorrar() {
     this.borrarReceta.emit(this.receta().id);
